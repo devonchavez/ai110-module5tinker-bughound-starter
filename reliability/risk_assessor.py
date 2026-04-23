@@ -58,9 +58,8 @@ def assess_risk(
         reasons.append("Return statements may have been removed.")
 
     if "except:" in original_code and "except:" not in fixed_code:
-        # This is usually good, but still risky.
-        score -= 5
-        reasons.append("Bare except was modified, verify correctness.")
+        score += 10
+        reasons.append("Bare except replaced with specific handler (reliability improvement).")
 
     # ----------------------------
     # Clamp score

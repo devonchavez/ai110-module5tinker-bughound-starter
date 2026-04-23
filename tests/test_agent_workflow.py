@@ -38,6 +38,23 @@ def test_offline_mode_proposes_logging_fix_for_print():
     assert "logging.info(" in fixed
 
 
+def test_heuristic_no_false_positive_on_specific_except_handler():
+    # A named except clause should not trigger the bare-except Reliability flag.
+    agent = BugHoundAgent(client=None)
+    code = (
+        "def compute_ratio(x, y):\n"
+        "    try:\n"
+        "        return x / y\n"
+        "    except ZeroDivisionError as e:\n"
+        "        return 0\n"
+    )
+    result = agent.run(code)
+    reliability_issues = [i for i in result["issues"] if i.get("type") == "Reliability"]
+    assert reliability_issues == [], (
+        f"False positive: flagged specific except handler as bare except: {reliability_issues}"
+    )
+
+
 def test_mock_client_forces_llm_fallback_to_heuristics_for_analysis():
     # MockClient returns non-JSON for analyzer prompts, so agent should fall back.
     agent = BugHoundAgent(client=MockClient())

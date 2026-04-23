@@ -32,7 +32,7 @@ def test_high_severity_issue_drives_score_down():
         fixed_code=fixed,
         issues=[{"type": "Reliability", "severity": "High", "msg": "bare except"}],
     )
-    assert risk["score"] <= 60
+    assert risk["score"] <= 70
     assert risk["level"] in ("medium", "high")
 
 

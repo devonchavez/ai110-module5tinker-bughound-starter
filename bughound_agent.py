@@ -76,7 +76,7 @@ class BugHoundAgent:
             self._log("ANALYZE", f"API Error: {str(e)}. Falling back to heuristics.")
             return self._heuristic_analyze(code_snippet)
 
-        issues = self._parse_json_array_of_issues(raw)
+        issues = self._parse_json_array_of_issues(self._strip_code_fences(raw))
 
         if issues is None:
             self._log("ANALYZE", "LLM output was not parseable JSON. Falling back to heuristics.")

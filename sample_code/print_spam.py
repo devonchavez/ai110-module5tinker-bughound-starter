@@ -6,3 +6,15 @@ def greet(name, verbose=False):
     print("Welcome!")
 
     return True
+
+
+#fixed
+
+def greet(name, verbose=False):
+    if verbose:
+        logging.info("Entering greet()")
+
+    logging.info("Hello", name)
+    logging.info("Welcome!")
+
+    return True
